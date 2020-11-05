@@ -9,8 +9,8 @@ import ResolveAuthScreen from './src/screens/ResolveAuthScreen';
 import SignupScreen from './src/screens/SignupScreen';
 import SigninScreen from './src/screens/SigninScreen';
 
-import { Provider } from './src/context/BlogContext';
 import { Provider as AuthProvider } from './src/context/AuthContext';
+import { Provider as BlogProvider } from './src/context/BlogContext';
 
 import { setNavigator } from './src/navigationRef';
 
@@ -61,10 +61,10 @@ const App = createAppContainer(switchNavigator);
 
 export default () => {
     return (
-    <Provider>
-        <AuthProvider>
-            <App ref={navigator => { setNavigator(navigator) }} />
-        </AuthProvider>
-    </Provider>
+        <BlogProvider>
+            <AuthProvider>
+                <App ref={navigator => { setNavigator(navigator) }} />
+            </AuthProvider>
+        </BlogProvider>
         );
 };

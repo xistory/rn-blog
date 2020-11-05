@@ -1,5 +1,6 @@
 import createDataContext from './createDataContext';
 import jsonServer from '../api/jsonServer';
+import { API } from "aws-amplify";
 
 const blogReducer = (state, action) => {
     switch (action.type) {
@@ -20,9 +21,12 @@ const blogReducer = (state, action) => {
 
 const getBlogPosts = dispatch => {
     return async () => {
-        const response = await jsonServer.get('/blogposts');
-
-        dispatch({ type: 'get_blogposts', payload: response.data });
+        try {
+            const notes = await API.get("notes", "/notes");
+            dispatch({ type: 'get_blogposts', payload: notes });
+        } catch (e) {
+            console.log(e);
+        }
     };
 };
 

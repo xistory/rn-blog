@@ -20,25 +20,28 @@ const IndexScreen = ({ navigation }) => {
 
     return (
             <View>
-            <Text> Index Screen</Text>
-            <FlatList
-        data={state}
-        keyExtractor = {(blogPost) => blogPost.title}
-        renderItem={({ item }) => {
-                return (
-                    <TouchableOpacity onPress={() => navigation.navigate('Show', { id: item.id })}>
-                        <View style={styles.row}>
-                            <Text style={styles.title}>
-                                {item.title} - {item.id}
-                            </Text>
-                            <TouchableOpacity onPress={() => deleteBlogPost(item.id)}>
-                                <Feather style={styles.icon} name="trash" />
-                            </TouchableOpacity>
-                </View>
+                <Text> Index Screen</Text>
+                <FlatList
+                    data={state}
+                    keyExtractor = {(note) => note.noteId}
+                    renderItem={({ item }) => {
+                    return (
+                    <TouchableOpacity onPress={() => navigation.navigate('Show', { id: item.noteId })}>
+                    <View style={styles.row}>
+                    <Text style={styles.title}>
+                    {item.content} -
+                    {"Created: " + new Date(item.createdAt).toLocaleString()}
+                    </Text>
+                    <TouchableOpacity onPress={() => deleteBlogPost(item.noteId)}>
+                    <Feather style={styles.icon} name="trash" />
                     </TouchableOpacity>
-                );
-        }}
-        />
+                    </View>
+                    </TouchableOpacity>
+                    );
+                    }}
+
+                    />
+
             </View>
     );
 };
@@ -68,7 +71,7 @@ const styles = StyleSheet.create({
         fontSize: 18
     },
     icon: {
-        fontSize: 24
+        fontSize: 15
     }
 });
 

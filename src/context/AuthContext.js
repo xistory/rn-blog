@@ -19,6 +19,16 @@ const authReducer = (state, action) => {
 };
 
 const tryLocalSignin = dispatch => async () => {
+    try {
+        await Auth.currentSession();
+        dispatch({ type: 'signin', payload: true });
+        navigate('Index');
+    } catch (e) {
+        console.log(e);
+        navigate('Signin');
+    }
+
+    /*
     const token = await AsyncStorage.getItem('token');
     if (token) {
         dispatch({ type: 'signin', payload: token });
@@ -26,6 +36,8 @@ const tryLocalSignin = dispatch => async () => {
     } else {
         navigate('Signin');
     }
+    */
+
 };
 
 const clearErrorMessage = dispatch => () => {
