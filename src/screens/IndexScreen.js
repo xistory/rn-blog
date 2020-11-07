@@ -1,11 +1,14 @@
 import React, { useContext, useEffect } from 'react';
-import { View, Text, StyleSheet, FlatList, Button, TouchableOpacity } from 'react-native';
-import { Context } from '../context/BlogContext';
+import { View, Text, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
+import { Button } from 'react-native-elements';
+import { Context as BlogContext } from '../context/BlogContext';
+import { Context as AuthContext } from '../context/AuthContext';
 // import { Context as ImageContext } from '../context/ImageContext';
 import { Feather } from '@expo/vector-icons';
 
 const IndexScreen = ({ navigation }) => {
-    const { state, deleteBlogPost, getBlogPosts } = useContext(Context);
+    const { state, deleteBlogPost, getBlogPosts } = useContext(BlogContext);
+    const { signout } = useContext(AuthContext);
 
     useEffect(() => {
         getBlogPosts();
@@ -20,7 +23,7 @@ const IndexScreen = ({ navigation }) => {
 
     return (
             <View>
-                <Text> Index Screen</Text>
+                <Text> Index Screen hello</Text>
                 <FlatList
                     data={state}
                     keyExtractor = {(note) => note.noteId}
@@ -39,8 +42,8 @@ const IndexScreen = ({ navigation }) => {
                     </TouchableOpacity>
                     );
                     }}
-
-                    />
+                />
+                <Button title="Sign Out" onPress={signout} />
 
             </View>
     );

@@ -1,11 +1,12 @@
 import React, { useContext } from 'react';
 import { View, StyleSheet, Text } from 'react-native';
+import { Button } from 'react-native-elements';
 import AuthForm from '../components/AuthForm';
 import NavLink from '../components/NavLink';
 import { Context } from '../context/AuthContext';
 
 const SigninScreen = () => {
-    const { state, signin, clearErrorMessage } = useContext(Context);
+    const { state, signin, facebookSignin, clearErrorMessage } = useContext(Context);
 
     return (
             <View style={styles.container}>
@@ -19,6 +20,7 @@ const SigninScreen = () => {
         text="Don't have an account? Sign up instead"
         routeName="Signup"
             />
+            <Button title="Facebook Sign In" onPress={facebookSignin} />
             </View>
     );
 };

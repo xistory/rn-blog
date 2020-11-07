@@ -16,7 +16,28 @@ import { setNavigator } from './src/navigationRef';
 
 import Amplify from 'aws-amplify';
 import config from './src/config';
+import { Linking } from 'expo';
+import * as WebBrowser from 'expo-web-browser';
 
+
+const urlOpenerExpo = async (url, redirectUrl) => {
+    console.log(">>>>>>>>> in urlOpener");
+    // On Expo, use WebBrowser.openAuthSessionAsync to open the Hosted UI pages.
+    const { type, url: newUrl } = await WebBrowser.openAuthSessionAsync(url, redirectUrl);
+
+    console.log("Type");
+    console.log(type);
+    console.log(newUrl);
+
+    if (type === 'success') {
+        await WebBrowser.dismissBrowser();
+
+        if (Platform.OS === 'ios') {
+            return Linking.openURL(newUrl);
+        }
+    }
+
+};
 
 Amplify.configure({
     Auth: {
@@ -39,6 +60,15 @@ Amplify.configure({
                 region: config.apiGateway.REGION
             },
         ]
+    },
+    oauth: {
+        domain: config.oauth.DOMAIN,
+        scope: config.oauth.SCOPE,
+        redirectSignIn: config.oauth.REDIRECTSIGNIN,
+        redirectSignOut: config.oauth.REDIRECTSIGNOUT,
+        responseType: config.oauth.RESPONSETYPE,
+        options: config.oauth.OPTIONS,
+        urlOpener: urlOpenerExpo
     }
 });
 

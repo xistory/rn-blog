@@ -8,7 +8,7 @@ const authReducer = (state, action) => {
     case 'signin':
         return { errorMessage: '', isAuthenticated: action.payload };
     case 'signout':
-        return { token: null, errorMessage: '' };
+        return { errorMessage: '', isAuthenticated: false };
     case 'add_error':
         return { ...state, errorMessage: action.payload };
     case 'clear_error_message':
@@ -55,13 +55,25 @@ const signin = dispatch => async ({ email, password }) => {
     }
 };
 
+const facebookSignin = dispatch => async () => {
+    try {
+        await Auth.federatedSignIn({provider: "Facebook"});
+    } catch (e) {
+        dispatch({ type: 'add_error', payload: 'Something wrong signingIn' });
+    }
+}
+
 const signup = () => {};
-const signout = () => {};
+const signout = dispatch => async () => {
+    await Auth.signOut();
+    dispatch({ type: 'signout' });
+    navigate('loginFlow');
+};
 
 
 
 export const { Provider, Context } = createDataContext(
     authReducer,
-    { signin, signout, signup, clearErrorMessage, tryLocalSignin },
+    { signin, facebookSignin, signout, signup, clearErrorMessage, tryLocalSignin },
     { token: null, errorMessage: '' }
 );
